@@ -83,8 +83,10 @@
         } else if (armingState === 'ArmingState.DISARMED') {
             statusIcon.innerHTML = '🔓<br><p>Disarmed</p>';
             action.innerHTML = '<button type="button" class="arm" onclick="sendCommand(\'arm_away\')">Arm 🔒</button>';
+        } else if (armingState === 'ArmingState.UNKNOWN') {
+            statusIcon.innerHTML = '🔗<br><p>Disconnected</p>';
         } else {
-            statusIcon.innerHTML = '❓<br>' + armingState;
+                statusIcon.innerHTML = '❓<br>' + armingState;
         }
     }
 
