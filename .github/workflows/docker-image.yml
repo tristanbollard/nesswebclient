@@ -1,0 +1,18 @@
+name: Publish to 
+
+on:
+  [workflow_dispatch]
+
+jobs:
+  publish_image:
+    runs-on: ububtu-latest
+    steps:
+      - name: checkout
+      - uses: actions/checkout@v4
+      - name: build image
+        run: docker build . --file Dockerfile --tag tristanbollard/nesswebclient:latest
+      - name: push image to dockerhub
+        run: |
+          docker login -u tristanbollard -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push tristanbollard/nesswebclient:latest
+          
