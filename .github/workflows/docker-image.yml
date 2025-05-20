@@ -1,14 +1,14 @@
-name: Publish to 
+name: Publish to dockerhub
 
 on:
   [workflow_dispatch]
 
 jobs:
   publish_image:
-    runs-on: ububtu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
       - name: build image
         run: docker build . --file Dockerfile --tag tristanbollard/nesswebclient:latest
       - name: push image to dockerhub
