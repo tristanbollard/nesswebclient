@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#status-icon {
+    font-size: 250%; /* Increase the size */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Center horizontally */
+    text-align: center; /* Center text inside the div */
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 400px; /* Limit the maximum width */
+}
+
+input[type="number"] {
+    font-weight: bold;
+    text-align: center;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 24px;
+}
+
+button {
+    font-weight: bold;
+    background-color: #555;
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+button:hover {
+    opacity: 0.9;
+}
+
+.arm {
+    background-color: #aa0000; /* Red */
+    font-weight: bolder;
+    height: 50px;
+}
+
+.disarm {
+    background-color: #00aa00; /* Green */
+    font-weight: bolder;
+    height: 50px;
+}
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+
+/* Media queries for responsive design */
+@media (max-width: 600px) {
+    form {
+        width: 90%;
+        padding: 15px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    input[type="number"] {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .keypad-grid {
+        gap: 3px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    form {
+        width: 70%;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    input[type="number"] {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .keypad-grid {
+        gap: 5px;
+    }
+}
+
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    form {
+        background-color: #333;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    input[type="number"] {
+        background-color: #444;
+        border: 1px solid #555;
+        color: #e0e0e0;
+    }
+
+    button {
+        background-color: #666;
+    }
+}

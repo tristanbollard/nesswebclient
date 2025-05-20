@@ -1,0 +1,11 @@
+nessclient~=1.1.2
+setuptools~=75.8.0
+click~=8.1.7
+requests~=2.32.3
+uvicorn~=0.34.0
+Quart~=0.20.0
+justbackoff~=0.6.0
+pyserial~=3.5
+pyserial-asyncio~=0.6
+pytest~=8.3.2
+aiosmtplib~=4.0.0

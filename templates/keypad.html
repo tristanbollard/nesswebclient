@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/static/manifest.json">
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/service-worker.js')
+          .then(() => console.log('Service Worker Registered'))
+      }
+    </script>
+    <title>Keypad</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body onload="updateStatus()">
+    <form id="keypad-form">
+        <div id="status-icon"></div>
+        <div id="action"></div>
+
+        <input type="number" id="code" placeholder="Alarm PIN" inputmode="numeric" required>
+        <div id="keypad-buttons" class="keypad-grid">
+            <button type="button" class="number" onclick="enterDigit(1)">1</button>
+            <button type="button" class="number" onclick="enterDigit(2)">2</button>
+            <button type="button" class="number" onclick="enterDigit(3)">3</button>
+            <button type="button" class="number" onclick="enterDigit(4)">4</button>
+            <button type="button" class="number" onclick="enterDigit(5)">5</button>
+            <button type="button" class="number" onclick="enterDigit(6)">6</button>
+            <button type="button" class="number" onclick="enterDigit(7)">7</button>
+            <button type="button" class="number" onclick="enterDigit(8)">8</button>
+            <button type="button" class="number" onclick="enterDigit(9)">9</button>
+            <button type="button" class="clear" onclick="clearCode()">CLEAR</button>
+            <button type="button" class="number" onclick="enterDigit(0)">0</button>
+            <button type="button" class="back" onclick="backspace()">⌫</button>
+        </div>
+    </form>
+    <script>
+        function enterDigit(digit) {
+            const codeInput = document.getElementById('code');
+            codeInput.value += digit;
+        }
+
+        function clearCode() {
+            const codeInput = document.getElementById('code');
+            codeInput.value = '';
+        }
+
+        function backspace() {
+            const codeInput = document.getElementById('code');
+            codeInput.value = codeInput.value.slice(0, -1);
+        }
+
+        async function sendCommand(command) {
+            const code = document.getElementById('code').value;
+            const response = await fetch(`/${command}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code })
+            });
+            const result = await response.json();
+            alert(result.status || result.error);
+        }
+
+        async function updateStatus() {
+        const response = await fetch('/heartbeat');
+        const data = await response.json();
+        const statusIcon = document.getElementById('status-icon');
+        const action = document.getElementById('action');
+        const armingState = data.arming_state;
+
+        if (armingState === 'ArmingState.TRIGGERED') {
+            statusIcon.innerHTML = '🚨';
+        } else if (armingState === 'ArmingState.ARMED' || armingState === 'ArmingState.EXIT_DELAY') {
+            if(armingState === 'ArmingState.ARMED') {
+                statusIcon.innerHTML = '🔒<br><p>Armed</p>';
+            } else {
+                statusIcon.innerHTML = '🚪<br><p>Exit Delay</p>';
+            }
+            action.innerHTML = '<button type="button" class="disarm" onclick="sendCommand(\'disarm\')">Disarm 🔓</button>';
+        } else if (armingState === 'ArmingState.DISARMED') {
+            statusIcon.innerHTML = '🔓<br><p>Disarmed</p>';
+            action.innerHTML = '<button type="button" class="arm" onclick="sendCommand(\'arm_away\')">Arm 🔒</button>';
+        } else {
+            statusIcon.innerHTML = '❓<br>' + armingState;
+        }
+    }
+
+    // Call updateStatus initially and then every 5 seconds
+    updateStatus();
+    setInterval(updateStatus, 2000);
+    </script>
+</body>
+</html>
