@@ -1,18 +1,19 @@
 name: Publish to dockerhub
 
 on:
-  [workflow_dispatch]
+  workflow_dispatch:
 
 jobs:
   publish_image:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: build image
+
+      - name: Build Docker image
         run: docker build . --file Dockerfile --tag tristanbollard/nesswebclient:latest
-      - name: push image to dockerhub
+
+      - name: Push image to Docker Hub
         run: |
-          docker login -u tristanbollard -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u tristanbollard --password-stdin
           docker push tristanbollard/nesswebclient:latest
-          
